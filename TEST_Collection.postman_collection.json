@@ -1,0 +1,379 @@
+{
+	"info": {
+		"_postman_id": "62126b36-080d-4d66-9c89-b54d80675b63",
+		"name": "TEST_Collection",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Наборы тестов 03.02.",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"//1. Проверка на формат JSON\r",
+							"pm.test(\"Верно! Формат - JSON\", function() {\r",
+							"    pm.response.to.have.jsonBody()\r",
+							"});\r",
+							"\r",
+							"//2. Проверка наличия полей\r",
+							"pm.test(\"Проверка наличия полей\", function() {\r",
+							"    const jsonData = pm.response.json();\r",
+							"\r",
+							"    pm.expect(jsonData).to.have.property(\"people\");\r",
+							"    pm.expect(jsonData).to.have.property(\"planets\");\r",
+							"    pm.expect(jsonData).to.have.property(\"films\");\r",
+							"});\r",
+							"\r",
+							"//3. Проверка, значение не равен null \r",
+							"pm.test(\"Значение не равен null\", function() {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.people).not.equal(null);\r",
+							"    pm.expect(jsonData.vehicles).not.equal(null);\r",
+							"    pm.expect(jsonData.starships).not.equal(null);\r",
+							"});\r",
+							"\r",
+							"//4. Проверка, значение не пустое\r",
+							"pm.test(\"Не пустое значение\", function() {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.people).not.equal(\"\");\r",
+							"    pm.expect(jsonData.vehicles).not.equal(\"\");\r",
+							"    pm.expect(jsonData.starships).not.equal(\"\");\r",
+							"});\r",
+							"\r",
+							"//5. Проверка, на соответствие значения\r",
+							"pm.test(\"Значение верное\", function() {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.people).to.equal(\"https://swapi.dev/api/people/\");\r",
+							"    pm.expect(jsonData.vehicles).to.equal(\"https://swapi.dev/api/vehicles/\");\r",
+							"});\r",
+							"\r",
+							"//6. Проверка, на статус 200\r",
+							"pm.test(\"Проверка, на статус 200\", function() {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"//7. Проверка, на статус OK\r",
+							"pm.test(\"Проверка, на статус OK\", function() {\r",
+							"    pm.response.to.have.status(\"OK\");\r",
+							"});\r",
+							"\r",
+							"//8. Проверка, на время ответа\r",
+							"pm.test(\"Ответ, не более 1000ms\", function() {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(1000);\r",
+							"});\r",
+							"\r",
+							"//9. Проверка, Headers\r",
+							"pm.test(\"Проверка, Headers содержит параметры:\", function() {\r",
+							"    pm.response.to.have.header(\"Content-Type\")\r",
+							"    pm.response.to.have.header(\"Transfer-Encoding\")\r",
+							"});\r",
+							"\r",
+							"//10. Проверка, Headers содержит конкретные значения\r",
+							"pm.test(\"Проверка, Headers содержит конкретные значения Content-Type и Transfer-Encoding\", function() {\r",
+							"    pm.response.to.have.header(\"Content-Type\", \"application/json\")\r",
+							"    pm.response.to.have.header(\"Transfer-Encoding\", \"chunked\")\r",
+							"});\r",
+							"\r",
+							"//11. Cookie на наличие\r",
+							"pm.test(\"Проверка, на наличие Cookie\", function() {\r",
+							"    pm.cookies.has(\"\")\r",
+							"});\r",
+							"\r",
+							"//12. Проверка значения Cookie\r",
+							"pm.test(\"Проверка значения Cookie\", function() {\r",
+							"    try{\r",
+							"        var MY_COOKIE = pm.cookies.get(\"\");\r",
+							"        console.log(MY_COOKIE);\r",
+							"    } catch(e) {\r",
+							"        console.log(\"Ошибка в куки--->\" + e)\r",
+							"    }\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://swapi.dev/api/",
+					"protocol": "https",
+					"host": [
+						"swapi",
+						"dev"
+					],
+					"path": [
+						"api",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Проверка ответа JSON 04.02.",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var data = JSON.parse(responseBody);\r",
+							"var schema = {\r",
+							"    // тип объекта\r",
+							"    \"type\": \"object\",\r",
+							"    // обязательные свойства\r",
+							"    \"required\": [\"people\", \"planets\", \"films\", \"species\", \"vehicles\", \"starships\"],\r",
+							"    // Тип возвращаемых полей\r",
+							"    \"properties\": {\r",
+							"        \"people\":{\"type\":\"string\"},\r",
+							"        \"planets\":{\"type\":\"string\"},\r",
+							"        \"films\":{\"type\":\"string\"},\r",
+							"        \"species\":{\"type\":\"string\"},\r",
+							"        \"vehicles\":{\"type\":\"string\"},\r",
+							"        \"starships\":{\"type\":\"string\"},\r",
+							"    }\r",
+							"};\r",
+							"pm.test('Все верно!!!', function() {\r",
+							"    pm.expect(tv4.validate(data, schema)).to.be.true;\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://swapi.dev/api/",
+					"protocol": "https",
+					"host": [
+						"swapi",
+						"dev"
+					],
+					"path": [
+						"api",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Проверка ответа JSON 05.02",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var data = JSON.parse(responseBody);\r",
+							"var schema = {\r",
+							"    \"type\": \"object\",\r",
+							"    \"required\": [\"name\", \"homeworld\", \"films\", \"vehicles\", \"starships\"],\r",
+							"    // Свойство указанных выше полей\r",
+							"    \"property\": {\r",
+							"        \"name\": {\"type\": \"string\"},\r",
+							"        \"homeworld\": {\"type\": \"string\"},\r",
+							"        // Описание массива\r",
+							"        \"films\": {\r",
+							"            \"type\": \"array\",\r",
+							"            // items - перечисление типы из массива\r",
+							"            \"items\": {\"type\": \"string\"}\r",
+							"            },\r",
+							"            \"vehicles\": {\r",
+							"                \"type\": \"array\",\r",
+							"                \"items\": {\"type\": \"string\"}\r",
+							"            },\r",
+							"            \"starships\": {\r",
+							"                \"type\": \"array\",\r",
+							"                \"items\": {\"type\": \"string\"}\r",
+							"            },\r",
+							"    }\r",
+							"};\r",
+							"pm.test('ТЕСТ ПРОШЕЛ УСПЕШНО', function(){\r",
+							"    pm.expect(tv4.validate(data, schema)).to.be.true;\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://swapi.dev/api/people/1",
+					"protocol": "https",
+					"host": [
+						"swapi",
+						"dev"
+					],
+					"path": [
+						"api",
+						"people",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Test MOCK",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://99b94604-ffe1-433a-814a-2c75a4ae8e64.mock.pstmn.io",
+					"protocol": "https",
+					"host": [
+						"99b94604-ffe1-433a-814a-2c75a4ae8e64",
+						"mock",
+						"pstmn",
+						"io"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Test MOCK",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://99b94604-ffe1-433a-814a-2c75a4ae8e64.mock.pstmn.io",
+							"protocol": "https",
+							"host": [
+								"99b94604-ffe1-433a-814a-2c75a4ae8e64",
+								"mock",
+								"pstmn",
+								"io"
+							]
+						}
+					},
+					"status": "Not Found",
+					"code": 404,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Date",
+							"value": "Mon, 21 Mar 2022 18:04:30 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Server",
+							"value": "nginx"
+						},
+						{
+							"key": "x-srv-trace",
+							"value": "v=1;t=df3206cd1667d843"
+						},
+						{
+							"key": "x-srv-span",
+							"value": "v=1;s=acb669a91ee70685"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"key": "X-RateLimit-Limit",
+							"value": "120"
+						},
+						{
+							"key": "X-RateLimit-Remaining",
+							"value": "117"
+						},
+						{
+							"key": "X-RateLimit-Reset",
+							"value": "1647885914"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"a4-7hO0T/XLq3TuFViTu2ZVQQdIY+A\""
+						},
+						{
+							"key": "Vary",
+							"value": "Accept-Encoding"
+						},
+						{
+							"key": "Content-Encoding",
+							"value": "gzip"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"status\": {\n        \"name\": \"TEST\",\n        \"message\": \"success\",\n        \"header\": \"Работает\"\n    }\n}"
+				}
+			]
+		},
+		{
+			"name": "Test Mock2",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"name\": \"Mark\"}"
+				},
+				"url": {
+					"raw": "https://b7e469ac-ee1a-40a4-8876-3c0653cecefa.mock.pstmn.io/action",
+					"protocol": "https",
+					"host": [
+						"b7e469ac-ee1a-40a4-8876-3c0653cecefa",
+						"mock",
+						"pstmn",
+						"io"
+					],
+					"path": [
+						"action"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Test Mock2",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"name\": \"Mark\"}"
+						},
+						"url": {
+							"raw": "https://b7e469ac-ee1a-40a4-8876-3c0653cecefa.mock.pstmn.io/action",
+							"protocol": "https",
+							"host": [
+								"b7e469ac-ee1a-40a4-8876-3c0653cecefa",
+								"mock",
+								"pstmn",
+								"io"
+							],
+							"path": [
+								"action"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 500,
+					"_postman_previewlanguage": null,
+					"header": null,
+					"cookie": [],
+					"body": "{\r\n    \"status\": {\r\n        \"name\": \"MARK\",\r\n        \"message\": \"success\",\r\n        \"header\": \"Работает\"\r\n    }\r\n}"
+				}
+			]
+		}
+	]
+}
