@@ -1,0 +1,343 @@
+{
+	"info": {
+		"_postman_id": "826b1c63-78d3-4d48-bda5-323bd89303f8",
+		"name": "Выпуск продукции МДЛП",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "0. ПолучитьОтпечатокСертификата(НЕ ОБЯЗАТЕЛЬНО)",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {}
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "token c3253d162d73ea0dffc74469438001eb11f0b5b9",
+						"type": "text"
+					},
+					{
+						"key": "X-BRANCH-ID",
+						"value": "00000000100852",
+						"type": "text"
+					},
+					{
+						"key": "X-DB-PATH",
+						"value": "Srvr=\"mow1wks165\";Ref=\"MSK\";",
+						"type": "text"
+					},
+					{
+						"key": "Hostname",
+						"value": "mark-cn-back01.msk.stage.mark.puls.local",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "markirovka.sandbox.crptech.ru/api/v3/true-api/auth/key",
+					"host": [
+						"markirovka",
+						"sandbox",
+						"crptech",
+						"ru"
+					],
+					"path": [
+						"api",
+						"v3",
+						"true-api",
+						"auth",
+						"key"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "1. ПолучитьФайлСКодомСоединения",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json;charset=UTF-8",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"client_secret\": \"1713da9a-2042-465c-80ba-4da4dca3323d\",\r\n    \"client_id\": \"2cabd9b7-6042-40d8-97c2-8627f5704aa1\",\r\n    \"user_id\": \"b73abaa26e48bac2af6e0528178ba8f25edea048\",\r\n    \"auth_type\": \"SIGNED_CODE\"\r\n}"
+				},
+				"url": {
+					"raw": "api.sb.mdlp.crpt.ru/api/v1/auth",
+					"host": [
+						"api",
+						"sb",
+						"mdlp",
+						"crpt",
+						"ru"
+					],
+					"path": [
+						"api",
+						"v1",
+						"auth"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "2. ПолучитьКОД",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json;charset=UTF-8",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\"code\": \"cf588065-ee81-4924-865c-08116385fe89\",\r\n\"signature\": \"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\"\r\n}"
+				},
+				"url": {
+					"raw": "api.sb.mdlp.crpt.ru/api/v1/token/dc474e64-c268-4a83-9e5e-260fe803a638",
+					"host": [
+						"api",
+						"sb",
+						"mdlp",
+						"crpt",
+						"ru"
+					],
+					"path": [
+						"api",
+						"v1",
+						"token",
+						"dc474e64-c268-4a83-9e5e-260fe803a638"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "3. Контроль SSCC",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Host",
+						"value": "api.sb.mdlp.crpt.ru",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json;charset=UTF-8",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "token 86c83302-2453-439b-a2ce-239d4432b7eb",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n \"sscc\": [\r\n \"146501092104029345\",\r\n \"146501092104029346\",\r\n \"146501092104029347\"]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://api.sb.mdlp.crpt.ru/api/v1/reestr/sscc/sscc_check",
+					"protocol": "https",
+					"host": [
+						"api",
+						"sb",
+						"mdlp",
+						"crpt",
+						"ru"
+					],
+					"path": [
+						"api",
+						"v1",
+						"reestr",
+						"sscc",
+						"sscc_check"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "3.1. Контроль ТЕСТ SSCC",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Token e4016a2c-4e0a-4a89-978f-f4f9878e3cd",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "X-DB-PATH",
+						"value": "Srvr=\"mow1wks165\";Ref=\"MSK\";",
+						"type": "text"
+					},
+					{
+						"key": "X-BRANCH-ID",
+						"value": "00000000100852",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "api.sb.mdlp.crpt.ru/api/warehouse/v1.0/sscc_content/146501092104029345/",
+					"host": [
+						"api",
+						"sb",
+						"mdlp",
+						"crpt",
+						"ru"
+					],
+					"path": [
+						"api",
+						"warehouse",
+						"v1.0",
+						"sscc_content",
+						"146501092104029345",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Метод для получения информации о существующих правах",
+			"protocolProfileBehavior": {
+				"followOriginalHttpMethod": false,
+				"followAuthorizationHeader": false
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Host",
+						"value": "api.sb.mdlp.crpt.ru",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "token {{Authorization}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "api.sb.mdlp.crpt.ru/api/v1/rights/about",
+					"host": [
+						"api",
+						"sb",
+						"mdlp",
+						"crpt",
+						"ru"
+					],
+					"path": [
+						"api",
+						"v1",
+						"rights",
+						"about"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Метод для получения информации о правах текущего пользователя",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Host",
+						"value": "api.sb.mdlp.crpt.ru",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "token {{Authorization}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "api.sb.mdlp.crpt.ru/api/v1/rights/current",
+					"host": [
+						"api",
+						"sb",
+						"mdlp",
+						"crpt",
+						"ru"
+					],
+					"path": [
+						"api",
+						"v1",
+						"rights",
+						"current"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "https://api.sb.mdlp.crpt.ru/api/v1/reestr/public/04670028228456",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "token {{Authorization}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://api.sb.mdlp.crpt.ru/api/v1/reestr/public/04670028228456",
+					"protocol": "https",
+					"host": [
+						"api",
+						"sb",
+						"mdlp",
+						"crpt",
+						"ru"
+					],
+					"path": [
+						"api",
+						"v1",
+						"reestr",
+						"public",
+						"04670028228456"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
